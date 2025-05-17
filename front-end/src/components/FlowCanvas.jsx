@@ -44,13 +44,12 @@ function FlowCanvas() {
   const edgeReconnectSuccessful = useRef(true);
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] =
-    useEdgesState(initialEdges);
-  const { screenToFlowPosition, updateEdge, getEdge } =
-    useReactFlow();
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { screenToFlowPosition, updateEdge, getEdge } = useReactFlow();
   const [setType] = useDnD();
 
   const overlappedEdgeRef = useRef(null);
+  
 
   const onConnect = useCallback(
     (connection) => {
@@ -247,6 +246,7 @@ function FlowCanvas() {
         defaultEdgeOptions={defaultEdgeOptions}
         colorMode="dark"
         fitView
+        attributionPosition="top-right"
       >
         <Controls />
         <MiniMap nodeStrokeWidth={2} nodeStrokeColor="white" />
