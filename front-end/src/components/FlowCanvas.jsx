@@ -9,6 +9,7 @@ import {
   addEdge,
   SelectionMode,
   useReactFlow,
+  reconnectEdge,
 } from "@xyflow/react";
 import { initialEdges, initialNodes } from "../data/nodesData";
 
@@ -33,6 +34,7 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 function FlowCanvas() {
+    const edgeReconnectSuccessful = useRef(true);
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -46,6 +48,23 @@ function FlowCanvas() {
     },
     [setEdges]
   );
+
+  const onReconnectStart = useCallback(() => {
+    edgeReconnectSuccessful.current = false;
+  }, []);
+
+  const onReconnect = useCallback((oldEdge, newConnection) => {
+    edgeReconnectSuccessful.current = true;
+    setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+  }, []);
+
+  const onReconnectEnd = useCallback((_, edge) => {
+    if (!edgeReconnectSuccessful.current) {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+    }
+
+    edgeReconnectSuccessful.current = true;
+  }, []);
 
   const handleLabelChange = (id, newLabel) => {
     setNodes((nds) =>
@@ -120,6 +139,9 @@ function FlowCanvas() {
         onDragStart={onDragStart}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        onReconnect={onReconnect}
+        onReconnectStart={onReconnectStart}
+        onReconnectEnd={onReconnectEnd}
         colorMode="dark"
         fitView
         // style={{ background: "#121212" }}
