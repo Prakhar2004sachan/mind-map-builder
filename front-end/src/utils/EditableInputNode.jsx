@@ -9,7 +9,7 @@ const EditableInputNode = ({ data, id, selected }) => (
     }`}
   >
     <EditableLabel id={id} label={data.label} onChange={data.onLabelChange} />
-    <Handle type="source" position={Position.Bottom} />
+    <Handle type="source" position={Position.Bottom} className="w-3 h-3" />
   </div>
 );
 

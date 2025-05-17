@@ -10,6 +10,9 @@ import {
   SelectionMode,
   useReactFlow,
   reconnectEdge,
+  getConnectedEdges,
+  getOutgoers,
+  getIncomers,
 } from "@xyflow/react";
 import { initialEdges, initialNodes } from "../data/nodesData";
 
@@ -122,6 +125,33 @@ function FlowCanvas() {
     [screenToFlowPosition, type]
   );
 
+  const onNodesDelete = useCallback(
+    (deleted) => {
+      setEdges(
+        deleted.reduce((acc, node) => {
+          const incomers = getIncomers(node, nodes, edges);
+          const outgoers = getOutgoers(node, nodes, edges);
+          const connectedEdges = getConnectedEdges([node], edges);
+
+          const remainingEdges = acc.filter(
+            (edge) => !connectedEdges.includes(edge)
+          );
+
+          const createdEdges = incomers.flatMap(({ id: source }) =>
+            outgoers.map(({ id: target }) => ({
+              id: `${source}->${target}`,
+              source,
+              target,
+            }))
+          );
+
+          return [...remainingEdges, ...createdEdges];
+        }, edges)
+      );
+    },
+    [nodes, edges]
+  );
+
   return (
     <div
       style={{ width: "100vw", height: "100vh" }}
@@ -142,6 +172,7 @@ function FlowCanvas() {
         onReconnect={onReconnect}
         onReconnectStart={onReconnectStart}
         onReconnectEnd={onReconnectEnd}
+        onNodesDelete={onNodesDelete}
         colorMode="dark"
         fitView
         // style={{ background: "#121212" }}
