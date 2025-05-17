@@ -27,6 +27,10 @@
   color: black !important;
 }
 
+.react-flow__edgelabel-renderer:hover path{
+  color: white !important;
+}
+
 .react-flow__edge.selectable:hover .react-flow__edge-path,
 .react-flow__edge.selectable.selected .react-flow__edge-path {
   stroke: white;
