@@ -22,18 +22,7 @@ function Menu() {
           <p>Your Previous Projects</p>
           <MdOutlineArrowRightAlt className="size-6" />
         </div>
-        {/* Projects */}
-        <div className="scrollProj p-2 h-[12rem] overflow-y-scroll bg-[#717171] rounded-md mt-3">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <p
-              className="hover:bg-[#ec6281] hover:rounded-md transition-all duration-100 p-2 rounded-m cursor-pointer"
-              key={i}
-            >
-              Operating System
-            </p>
-          ))}
-        </div>
-      </div>
+       
       <div className="mt-6 flex gap-3 items-center cursor-pointer">
         <MdHelpOutline className="size-5" />
         <p>Get Help</p>
