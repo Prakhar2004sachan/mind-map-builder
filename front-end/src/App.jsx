@@ -1,16 +1,19 @@
-import FlowCanvas from './components/FlowCanvas'
-import SideBarLelf from './components/SideBarLelf';
-
+import { ReactFlowProvider } from "@xyflow/react";
+import FlowCanvas from "./components/FlowCanvas";
+import SideBarLelf from "./components/SideBarLelf";
+import { DnDProvider } from "./utils/DnDContext";
 
 function App() {
- 
-
   return (
     <div className="w-full h-screen flex">
-      <SideBarLelf/>
-      <FlowCanvas />
+      <SideBarLelf />
+      <ReactFlowProvider>
+        <DnDProvider>
+          <FlowCanvas />
+        </DnDProvider>
+      </ReactFlowProvider>
     </div>
   );
 }
 
-export default App
+export default App;

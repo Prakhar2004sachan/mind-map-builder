@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback,  useRef } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -8,25 +8,36 @@ import {
   useEdgesState,
   addEdge,
   SelectionMode,
+  useReactFlow,
 } from "@xyflow/react";
-import { initialEdges,initialNodes } from "../data/nodesData";
+import { initialEdges, initialNodes } from "../data/nodesData";
 
 import "@xyflow/react/dist/style.css";
 import CustomEdge from "../utils/CustomEdge";
-import EditableNode from "../utils/EditableNode";
+// import EditableNode from "../utils/EditableNode";
+import { useDnD } from "../utils/DnDContext";
+import EditableDefaultNode from "../utils/EditableDefaultNode";
+import EditableOutputNode from "../utils/EditableOutputNode";
+import EditableInputNode from "../utils/EditableInputNode";
 
 const nodeTypes = {
-    editable: EditableNode,
-}
+  inputNode: EditableInputNode,
+  defaultNode: EditableDefaultNode,
+  outputNode: EditableOutputNode,
+};
 const edgeTypes = {
   "custom-edge": CustomEdge,
 };
-const panOnDrag = [1, 2];
 
+let id = 0;
+const getId = () => `dndnode_${id++}`;
 
 function FlowCanvas() {
+  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { screenToFlowPosition } = useReactFlow();
+  const [type, setType] = useDnD();
 
   const onConnect = useCallback(
     (connection) => {
@@ -53,8 +64,51 @@ function FlowCanvas() {
     );
   };
 
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDragStart = (event, nodeType) => {
+    setType(nodeType);
+    event.dataTransfer.setData("text/plain", nodeType);
+    event.dataTransfer.effectAllowed = "move";
+  };
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const nodeType = event.dataTransfer.getData("application/reactflow");
+      if (!nodeType) return;
+
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+
+      const newNode = {
+        id: getId(),
+        type: nodeType,
+        position,
+        data: {
+          label: "Double click to edit",
+          onLabelChange: handleLabelChange,
+        },
+      };
+      console.log(newNode);
+
+      setNodes((nds) => [...nds, newNode]);
+    },
+    [screenToFlowPosition, type]
+  );
+
   return (
-    <div style={{ width: "100vw", height: "100vh" }} className="flex-1">
+    <div
+      style={{ width: "100vw", height: "100vh" }}
+      className="flex-1"
+      ref={reactFlowWrapper}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -63,19 +117,15 @@ function FlowCanvas() {
         edgeTypes={edgeTypes}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        panOnScroll
-        selectionOnDrag
-        panOnDrag={panOnDrag}
-        selectionMode={SelectionMode.Partial}
+        onDragStart={onDragStart}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
         colorMode="dark"
         fitView
         // style={{ background: "#121212" }}
       >
         <Controls />
-        <MiniMap
-          nodeStrokeWidth={2}
-          nodeStrokeColor={"white"}
-        />
+        <MiniMap nodeStrokeWidth={2} nodeStrokeColor={"white"} />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
     </div>

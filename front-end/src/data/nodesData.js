@@ -1,43 +1,43 @@
 // Nodes
 export const initialNodes = [
-  { id: "1", type: "editable", position: { x: 0, y: 0 }, data: { label: "Operating System" } },
+  { id: "1", type: "defaultNode", position: { x: 0, y: 0 }, data: { label: "Operating System" } },
 
   {
-    id: "2", type: "editable", 
+    id: "2", type: "defaultNode", 
     position: { x: -300, y: 100 },
     data: { label: "Process Management" },
   },
-  { id: "3", type: "editable", position: { x: 0, y: 100 }, data: { label: "Memory Management" } },
-  { id: "4", type: "editable", position: { x: 300, y: 100 }, data: { label: "File System" } },
-  { id: "5", type: "editable", position: { x: -300, y: 220 }, data: { label: "Scheduling" } },
+  { id: "3", type: "defaultNode", position: { x: 0, y: 100 }, data: { label: "Memory Management" } },
+  { id: "4", type: "defaultNode", position: { x: 300, y: 100 }, data: { label: "File System" } },
+  { id: "5", type: "defaultNode", position: { x: -300, y: 220 }, data: { label: "Scheduling" } },
   {
-    id: "6", type: "editable",
+    id: "6", type: "defaultNode",
     position: { x: -150, y: 220 },
     data: { label: "Inter-process Communication" },
   },
-  { id: "7", type: "editable", position: { x: 0, y: 220 }, data: { label: "Virtual Memory" } },
+  { id: "7", type: "defaultNode", position: { x: 0, y: 220 }, data: { label: "Virtual Memory" } },
   {
-    id: "8", type: "editable",
+    id: "8", type: "defaultNode",
     position: { x: 150, y: 220 },
     data: { label: "Paging & Segmentation" },
   },
   {
-    id: "9", type: "editable",
+    id: "9", type: "defaultNode",
     position: { x: 300, y: 220 },
     data: { label: "Directory Structure" },
   },
   {
-    id: "10", type: "editable",
+    id: "10", type: "defaultNode",
     position: { x: 450, y: 220 },
     data: { label: "File Allocation" },
   },
   {
-    id: "11", type: "editable",
+    id: "11", type: "defaultNode",
     position: { x: 0, y: 350 },
     data: { label: "Security & Protection" },
   },
   {
-    id: "12", type: "editable",
+    id: "12", type: "defaultNode",
     position: { x: 300, y: 350 },
     data: { label: "Device Management" },
   },
