@@ -6,6 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: white;
 }
 
 .dark .react-flow__node {
@@ -16,4 +17,8 @@
 .light .react-flow__node {
   background: white;
   color: #111;
+}
+
+.scrollProj::-webkit-scrollbar {
+  display: none;
 }
