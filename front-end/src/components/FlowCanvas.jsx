@@ -49,7 +49,6 @@ function FlowCanvas() {
   const [setType] = useDnD();
 
   const overlappedEdgeRef = useRef(null);
-  
 
   const onConnect = useCallback(
     (connection) => {
@@ -220,12 +219,48 @@ function FlowCanvas() {
     [nodes, edges]
   );
 
+  const handleSave = () => {
+    const flowData = {
+      nodes,
+      edges,
+    };
+
+    const fileContent = `
+  /**
+   * Export React Flow structure
+   */
+  export const nodes = ${JSON.stringify(nodes, null, 2)};
+  export const edges = ${JSON.stringify(edges, null, 2)};
+  `;
+
+    const blob = new Blob([fileContent], { type: "text/javascript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+
+    const name = prompt("Enter file name (without .js):", "MyFlow");
+    if (!name) return;
+
+    a.download = `${name}.js`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div
       style={{ width: "100vw", height: "100vh" }}
-      className="flex-1"
+      className="flex-1 relative"
       ref={reactFlowWrapper}
     >
+      <button
+        className="absolute z-10 right-[100px] top-[30px] bg-[#de1d61] px-4 py-1 text-sm rounded-full"
+        onClick={handleSave}
+      >
+        Save Flow
+      </button>
+
       <ReactFlow
         nodes={nodes}
         edges={edges}
