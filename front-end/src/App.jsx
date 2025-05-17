@@ -1,6 +1,6 @@
 import FlowCanvas from './components/FlowCanvas'
 import SideBarLelf from './components/SideBarLelf';
-import SideBarRight from './components/SideBarRight';
+
 
 function App() {
  
