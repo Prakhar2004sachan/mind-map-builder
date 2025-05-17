@@ -28,7 +28,8 @@ function SideBarLelf() {
           active={activeButton === "Tools"}
         />
       </div>
-      <Menu />
+      {activeButton==="Menu"?<Menu />:null}
+      
     </div>
   );
 }
