@@ -27,7 +27,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             pointerEvents: "all",
           }}
-          className="nodrag nopan bg-zinc-200 rounded-full p-1 size-5"
+          className="nodrag nopan bg-zinc-200 rounded-full p-1 size-4"
           onClick={() => {
             setEdges((es) => es.filter((e) => e.id !== id));
           }}

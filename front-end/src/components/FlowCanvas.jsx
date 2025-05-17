@@ -1,4 +1,4 @@
-import React, { useCallback,  useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -7,28 +7,28 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
-  SelectionMode,
   useReactFlow,
   reconnectEdge,
   getConnectedEdges,
   getOutgoers,
   getIncomers,
 } from "@xyflow/react";
-import { initialEdges, initialNodes } from "../data/nodesData";
 
-import "@xyflow/react/dist/style.css";
+import { initialEdges, initialNodes } from "../data/nodesData";
 import CustomEdge from "../utils/CustomEdge";
-// import EditableNode from "../utils/EditableNode";
 import { useDnD } from "../utils/DnDContext";
 import EditableDefaultNode from "../utils/EditableDefaultNode";
 import EditableOutputNode from "../utils/EditableOutputNode";
 import EditableInputNode from "../utils/EditableInputNode";
+
+import "@xyflow/react/dist/style.css";
 
 const nodeTypes = {
   inputNode: EditableInputNode,
   defaultNode: EditableDefaultNode,
   outputNode: EditableOutputNode,
 };
+
 const edgeTypes = {
   "custom-edge": CustomEdge,
 };
@@ -36,13 +36,21 @@ const edgeTypes = {
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
+const defaultEdgeOptions = {
+  interactionWidth: 75,
+};
+
 function FlowCanvas() {
-    const edgeReconnectSuccessful = useRef(true);
+  const edgeReconnectSuccessful = useRef(true);
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const { screenToFlowPosition } = useReactFlow();
-  const [type, setType] = useDnD();
+  const [edges, setEdges, onEdgesChange] =
+    useEdgesState(initialEdges);
+  const { screenToFlowPosition, updateEdge, getEdge } =
+    useReactFlow();
+  const [setType] = useDnD();
+
+  const overlappedEdgeRef = useRef(null);
 
   const onConnect = useCallback(
     (connection) => {
@@ -50,6 +58,68 @@ function FlowCanvas() {
       setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges]
+  );
+
+  const onNodeDragStop = useCallback(
+    (event, node) => {
+      const edgeId = overlappedEdgeRef.current;
+      if (!edgeId) return;
+
+      const edge = getEdge(edgeId);
+      if (!edge) return;
+
+      // Remove old edge
+      setEdges((eds) => eds.filter((e) => e.id !== edgeId));
+
+      // Add new edges
+      const newEdges = [
+        {
+          id: `${edge.source}->${node.id}`,
+          source: edge.source,
+          target: node.id,
+          type: "custom-edge",
+        },
+        {
+          id: `${node.id}->${edge.target}`,
+          source: node.id,
+          target: edge.target,
+          type: "custom-edge",
+        },
+      ];
+
+      setEdges((eds) => [...eds, ...newEdges]);
+      overlappedEdgeRef.current = null;
+    },
+    [getEdge, setEdges]
+  );
+
+  const onNodeDrag = useCallback(
+    (e, node) => {
+      const nodeDiv = document.querySelector(
+        `.react-flow__node[data-id="${node.id}"]`
+      );
+      if (!nodeDiv) return;
+
+      const rect = nodeDiv.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const edgeElement = document
+        .elementsFromPoint(centerX, centerY)
+        .find((el) => el.classList.contains("react-flow__edge-interaction"));
+
+      const edgeWrapper = edgeElement?.closest(".react-flow__edge");
+      const edgeId = edgeWrapper?.dataset.id;
+
+      if (edgeId) {
+        updateEdge(edgeId, { style: { stroke: "black" } });
+      } else if (overlappedEdgeRef.current) {
+        updateEdge(overlappedEdgeRef.current, { style: {} });
+      }
+
+      overlappedEdgeRef.current = edgeId || null;
+    },
+    [updateEdge]
   );
 
   const onReconnectStart = useCallback(() => {
@@ -65,7 +135,6 @@ function FlowCanvas() {
     if (!edgeReconnectSuccessful.current) {
       setEdges((eds) => eds.filter((e) => e.id !== edge.id));
     }
-
     edgeReconnectSuccessful.current = true;
   }, []);
 
@@ -93,7 +162,7 @@ function FlowCanvas() {
 
   const onDragStart = (event, nodeType) => {
     setType(nodeType);
-    event.dataTransfer.setData("text/plain", nodeType);
+    event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
 
@@ -118,11 +187,10 @@ function FlowCanvas() {
           onLabelChange: handleLabelChange,
         },
       };
-      console.log(newNode);
 
       setNodes((nds) => [...nds, newNode]);
     },
-    [screenToFlowPosition, type]
+    [screenToFlowPosition]
   );
 
   const onNodesDelete = useCallback(
@@ -142,6 +210,7 @@ function FlowCanvas() {
               id: `${source}->${target}`,
               source,
               target,
+              type: "custom-edge",
             }))
           );
 
@@ -173,12 +242,14 @@ function FlowCanvas() {
         onReconnectStart={onReconnectStart}
         onReconnectEnd={onReconnectEnd}
         onNodesDelete={onNodesDelete}
+        onNodeDragStop={onNodeDragStop}
+        onNodeDrag={onNodeDrag}
+        defaultEdgeOptions={defaultEdgeOptions}
         colorMode="dark"
         fitView
-        // style={{ background: "#121212" }}
       >
         <Controls />
-        <MiniMap nodeStrokeWidth={2} nodeStrokeColor={"white"} />
+        <MiniMap nodeStrokeWidth={2} nodeStrokeColor="white" />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
     </div>
