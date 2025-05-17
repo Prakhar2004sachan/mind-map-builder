@@ -29,10 +29,17 @@ function FlowCanvas() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        colorMode="dark"
         fitView
+        // style={{ background: "#121212" }}
       >
         <Controls />
-        <MiniMap nodeStrokeWidth={2} nodeStrokeColor={"black"} maskStrokeColor="black" maskStrokeWidth={1}/>
+        <MiniMap
+          nodeStrokeWidth={2}
+          nodeStrokeColor={"black"}
+          maskStrokeColor="black"
+          maskStrokeWidth={1}
+        />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
     </div>

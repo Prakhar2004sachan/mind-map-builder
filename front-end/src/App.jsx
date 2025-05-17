@@ -6,10 +6,9 @@ function App() {
  
 
   return (
-    <div className="w-full h-screen flex gap-10">
+    <div className="w-full h-screen flex">
       <SideBarLelf/>
       <FlowCanvas />
-      <SideBarRight/>
     </div>
   );
 }
