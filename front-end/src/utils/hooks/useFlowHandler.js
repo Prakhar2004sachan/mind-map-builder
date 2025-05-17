@@ -6,6 +6,7 @@ import {
   getOutgoers,
   getIncomers,
 } from "@xyflow/react";
+import { useDnD } from "../DnDContext";
 
 export const useFlowHandlers = ({
   setEdges,
@@ -15,14 +16,29 @@ export const useFlowHandlers = ({
   nodes,
   edges,
 }) => {
+  const [_, setType] = useDnD();
   const edgeReconnectSuccessful = useRef(true);
   const overlappedEdgeRef = useRef(null);
 
-  const onConnect = useCallback(
-    (connection) =>
-      setEdges((eds) => addEdge({ ...connection, type: "custom-edge" }, eds)),
-    [setEdges]
-  );
+  const onConnect = (connection) => {
+    setEdges((eds) => addEdge({ ...connection, type: "custom-edge" }, eds));
+
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === connection.target) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              parent: connection.source,
+            },
+          };
+        }
+        return node;
+      })
+    );
+      
+  };
 
   const onReconnectStart = useCallback(() => {
     edgeReconnectSuccessful.current = false;
@@ -156,6 +172,17 @@ export const useFlowHandlers = ({
     [screenToFlowPosition, setNodes]
   );
 
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDragStart = (event, nodeType) => {
+    setType(nodeType);
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
+  };
+
   return {
     onConnect,
     onReconnect,
@@ -165,5 +192,7 @@ export const useFlowHandlers = ({
     onNodeDrag,
     onNodesDelete,
     onDrop,
+    onDragOver,
+    onDragStart,
   };
 };

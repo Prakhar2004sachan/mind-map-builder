@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -16,6 +16,7 @@ import EditableOutputNode from "../utils/EditableOutputNode";
 import EditableInputNode from "../utils/EditableInputNode";
 import "@xyflow/react/dist/style.css";
 import { useFlowHandlers } from "../utils/hooks/useFlowHandler";
+import { filterNodesAndEdges } from "../utils/filterNodesAndEdges";
 
 const nodeTypes = {
   inputNode: EditableInputNode,
@@ -38,6 +39,25 @@ function FlowCanvas() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const { screenToFlowPosition, getEdge } = useReactFlow();
   const [setType] = useDnD();
+  const [collapsedNodes, setCollapsedNodes] =useState(new Set());
+  const { visibleNodes, visibleEdges } = filterNodesAndEdges(
+    nodes,
+    edges,
+    collapsedNodes
+  );
+
+
+
+  const onNodeClick = (event, node) => {
+    setCollapsedNodes((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(node.id)) newSet.delete(node.id);
+      else newSet.add(node.id);
+      return newSet;
+    });
+  };
+  
+  
 
   const handleLabelChange = (id, newLabel) => {
     setNodes((nds) =>
@@ -85,38 +105,39 @@ function FlowCanvas() {
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const handleSave = () => {
-    const fileContent = `export const nodes = ${JSON.stringify(
+  const exportFn = () => {
+    const flowData = {
       nodes,
-      null,
-      2
-    )};\nexport const edges = ${JSON.stringify(edges, null, 2)};`;
-    const blob = new Blob([fileContent], { type: "text/javascript" });
+      edges,
+    };
+
+    const jsonString = JSON.stringify(flowData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url;
 
-    const name = prompt("Enter file name (without .js):", "MyFlow");
+    const name = prompt("Enter file name (without .json):", "MyFlow");
     if (!name) return;
 
-    a.download = `${name}.js`;
+    a.href = url;
+    a.download = `${name}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  };
+  }
 
   return (
     <div ref={reactFlowWrapper} className="flex-1 relative w-full h-full">
       <button
         className="absolute z-10 right-[100px] top-[30px] bg-[#de1d61] px-4 py-1 text-sm rounded-full"
-        onClick={handleSave}
+        onClick={exportFn}
       >
         Save Flow
       </button>
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={visibleNodes}
+        edges={visibleEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
@@ -132,6 +153,7 @@ function FlowCanvas() {
         onNodesDelete={onNodesDelete}
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
+        onNodeClick={onNodeClick}
         fitView
         colorMode="dark"
         attributionPosition="top-right"

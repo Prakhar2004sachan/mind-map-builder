@@ -35,3 +35,7 @@
 .react-flow__edge.selectable.selected .react-flow__edge-path {
   stroke: white;
 }
+
+input[type="file"]{
+  display: none;
+}

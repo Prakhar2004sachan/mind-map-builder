@@ -20,40 +20,6 @@ export const initialNodes = [
     dragging: false,
   },
   {
-    id: "2",
-    type: "defaultNode",
-    position: {
-      x: -1184,
-      y: -512,
-    },
-    data: {
-      label: "Process Management",
-    },
-    measured: {
-      width: 186,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "3",
-    type: "defaultNode",
-    position: {
-      x: -192,
-      y: -656,
-    },
-    data: {
-      label: "Memory Management",
-    },
-    measured: {
-      width: 192,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
     id: "4",
     type: "defaultNode",
     position: {
@@ -88,142 +54,6 @@ export const initialNodes = [
     dragging: false,
   },
   {
-    id: "6",
-    type: "defaultNode",
-    position: {
-      x: -1541,
-      y: -94,
-    },
-    data: {
-      label: "Scheduling Algorithms",
-    },
-    measured: {
-      width: 194,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "7",
-    type: "defaultNode",
-    position: {
-      x: -1228,
-      y: -92,
-    },
-    data: {
-      label: "Inter-process Communication (IPC)",
-    },
-    measured: {
-      width: 280,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "8",
-    type: "defaultNode",
-    position: {
-      x: -815.5792583160869,
-      y: -97.55339324044652,
-    },
-    data: {
-      label: "Process Synchronization",
-    },
-    measured: {
-      width: 204,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "9",
-    type: "defaultNode",
-    position: {
-      x: -1967.277528164806,
-      y: 251.39487660827274,
-    },
-    data: {
-      label: "FCFS (First Come First Serve)",
-    },
-    measured: {
-      width: 234,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "10",
-    type: "defaultNode",
-    position: {
-      x: -1489.071190987262,
-      y: 260.7055056329611,
-    },
-    data: {
-      label: "Round Robin",
-    },
-    measured: {
-      width: 125,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "11",
-    type: "defaultNode",
-    position: {
-      x: -1076.6699101393303,
-      y: 255.1521123925146,
-    },
-    data: {
-      label: "Priority Scheduling",
-    },
-    measured: {
-      width: 167,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "12",
-    type: "defaultNode",
-    position: {
-      x: -404,
-      y: -328,
-    },
-    data: {
-      label: "Virtual Memory",
-    },
-    measured: {
-      width: 143,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "13",
-    type: "defaultNode",
-    position: {
-      x: -160,
-      y: -346,
-    },
-    data: {
-      label: "Paging & Segmentation",
-    },
-    measured: {
-      width: 203,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
     id: "14",
     type: "defaultNode",
     position: {
@@ -235,40 +65,6 @@ export const initialNodes = [
     },
     measured: {
       width: 168,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "15",
-    type: "defaultNode",
-    position: {
-      x: -590,
-      y: -58,
-    },
-    data: {
-      label: "Page Replacement Algorithms",
-    },
-    measured: {
-      width: 246,
-      height: 42,
-    },
-    selected: false,
-    dragging: false,
-  },
-  {
-    id: "16",
-    type: "defaultNode",
-    position: {
-      x: -270,
-      y: -36,
-    },
-    data: {
-      label: "Thrashing",
-    },
-    measured: {
-      width: 103,
       height: 42,
     },
     selected: false,
@@ -430,19 +226,6 @@ export const initialNodes = [
 ];
 export const initialEdges = [
   {
-    id: "e1-2",
-    type: "custom-edge",
-    source: "1",
-    target: "2",
-    selected: false,
-  },
-  {
-    id: "e1-3",
-    type: "custom-edge",
-    source: "1",
-    target: "3",
-  },
-  {
     id: "e1-4",
     type: "custom-edge",
     source: "1",
@@ -454,81 +237,6 @@ export const initialEdges = [
     type: "custom-edge",
     source: "1",
     target: "5",
-    selected: false,
-  },
-  {
-    id: "e2-6",
-    type: "custom-edge",
-    source: "2",
-    target: "6",
-    selected: false,
-  },
-  {
-    id: "e2-7",
-    type: "custom-edge",
-    source: "2",
-    target: "7",
-    selected: false,
-  },
-  {
-    id: "e2-8",
-    type: "custom-edge",
-    source: "2",
-    target: "8",
-    selected: false,
-  },
-  {
-    id: "e6-9",
-    type: "custom-edge",
-    source: "6",
-    target: "9",
-    selected: false,
-  },
-  {
-    id: "e6-10",
-    type: "custom-edge",
-    source: "6",
-    target: "10",
-    selected: false,
-  },
-  {
-    id: "e6-11",
-    type: "custom-edge",
-    source: "6",
-    target: "11",
-    selected: false,
-  },
-  {
-    id: "e3-12",
-    type: "custom-edge",
-    source: "3",
-    target: "12",
-  },
-  {
-    id: "e3-13",
-    type: "custom-edge",
-    source: "3",
-    target: "13",
-  },
-  {
-    id: "e3-14",
-    type: "custom-edge",
-    source: "3",
-    target: "14",
-    selected: false,
-  },
-  {
-    id: "e12-15",
-    type: "custom-edge",
-    source: "12",
-    target: "15",
-  },
-  {
-    id: "e12-16",
-    type: "custom-edge",
-    source: "12",
-    target: "16",
-    style: {},
     selected: false,
   },
   {
@@ -593,5 +301,53 @@ export const initialEdges = [
     source: "5",
     target: "25",
     selected: false,
+  },
+  {
+    id: "1->6",
+    source: "1",
+    target: "6",
+    type: "custom-edge",
+  },
+  {
+    id: "1->7",
+    source: "1",
+    target: "7",
+    type: "custom-edge",
+  },
+  {
+    id: "1->8",
+    source: "1",
+    target: "8",
+    type: "custom-edge",
+  },
+  {
+    id: "1->12",
+    source: "1",
+    target: "12",
+    type: "custom-edge",
+  },
+  {
+    id: "1->13",
+    source: "1",
+    target: "13",
+    type: "custom-edge",
+  },
+  {
+    id: "1->14",
+    source: "1",
+    target: "14",
+    type: "custom-edge",
+  },
+  {
+    id: "3->15",
+    source: "3",
+    target: "15",
+    type: "custom-edge",
+  },
+  {
+    id: "3->16",
+    source: "3",
+    target: "16",
+    type: "custom-edge",
   },
 ];
