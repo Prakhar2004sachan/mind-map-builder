@@ -1,6 +1,6 @@
 // Nodes
 export const initialNodes = [
-  { id: "1", position: { x: 0, y: 0 }, data: { label: "Operating System" } },
+  { id: "1", type: "editable", position: { x: 0, y: 0 }, data: { label: "Operating System" } },
 
   {
     id: "2",

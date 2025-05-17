@@ -13,8 +13,11 @@ import { initialEdges,initialNodes } from "../data/nodesData";
 
 import "@xyflow/react/dist/style.css";
 import CustomEdge from "../utils/CustomEdge";
+import EditableNode from "../utils/EditableNode";
 
-
+const nodeTypes = {
+    editable: EditableNode,
+}
 const edgeTypes = {
   "custom-edge": CustomEdge,
 };
@@ -33,6 +36,23 @@ function FlowCanvas() {
     [setEdges]
   );
 
+  const handleLabelChange = (id, newLabel) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === id
+          ? {
+              ...node,
+              data: {
+                ...node.data,
+                label: newLabel,
+                onLabelChange: handleLabelChange,
+              },
+            }
+          : node
+      )
+    );
+  };
+
   return (
     <div style={{ width: "100vw", height: "100vh" }} className="flex-1">
       <ReactFlow
@@ -42,6 +62,7 @@ function FlowCanvas() {
         onEdgesChange={onEdgesChange}
         edgeTypes={edgeTypes}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
         panOnScroll
         selectionOnDrag
         panOnDrag={panOnDrag}
