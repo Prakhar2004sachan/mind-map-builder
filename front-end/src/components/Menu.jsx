@@ -17,12 +17,6 @@ function Menu() {
           <p>Import</p>
         </div>
       </div>
-      <div className="mt-5">
-        <div className="flex justify-between items-center p-2 border-b border-zinc-500">
-          <p>Your Previous Projects</p>
-          <MdOutlineArrowRightAlt className="size-6" />
-        </div>
-       
       <div className="mt-6 flex gap-3 items-center cursor-pointer">
         <MdHelpOutline className="size-5" />
         <p>Get Help</p>
