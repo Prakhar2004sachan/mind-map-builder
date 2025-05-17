@@ -1,5 +1,7 @@
 import React from "react";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
+import { MdHelpOutline } from "react-icons/md";
+import Button from "../ui/Button";
 
 function Menu() {
   return (
@@ -28,6 +30,14 @@ function Menu() {
             </p>
           ))}
         </div>
+      </div>
+      <div className="mt-6 flex gap-3 items-center cursor-pointer">
+        <MdHelpOutline className="size-5" />
+        <p>Get Help</p>
+      </div>
+      <div className="mt-5 flex flex-col gap-4">
+        <Button label={"Project on GitHub"} showIcon={false}/>
+        <Button label={"Follow me on Linkedin"} showIcon={false}/>
       </div>
     </div>
   );

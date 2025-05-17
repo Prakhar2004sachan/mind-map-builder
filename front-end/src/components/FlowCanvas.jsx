@@ -7,17 +7,29 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  SelectionMode,
 } from "@xyflow/react";
 import { initialEdges,initialNodes } from "../data/nodesData";
 
 import "@xyflow/react/dist/style.css";
+import CustomEdge from "../utils/CustomEdge";
+
+
+const edgeTypes = {
+  "custom-edge": CustomEdge,
+};
+const panOnDrag = [1, 2];
+
 
 function FlowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (connection) => {
+      const edge = { ...connection, type: "custom-edge" };
+      setEdges((eds) => addEdge(edge, eds));
+    },
     [setEdges]
   );
 
@@ -28,7 +40,12 @@ function FlowCanvas() {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        edgeTypes={edgeTypes}
         onConnect={onConnect}
+        panOnScroll
+        selectionOnDrag
+        panOnDrag={panOnDrag}
+        selectionMode={SelectionMode.Partial}
         colorMode="dark"
         fitView
         // style={{ background: "#121212" }}
@@ -36,9 +53,7 @@ function FlowCanvas() {
         <Controls />
         <MiniMap
           nodeStrokeWidth={2}
-          nodeStrokeColor={"black"}
-          maskStrokeColor="black"
-          maskStrokeWidth={1}
+          nodeStrokeColor={"white"}
         />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>

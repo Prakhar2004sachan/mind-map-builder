@@ -22,3 +22,7 @@
 .scrollProj::-webkit-scrollbar {
   display: none;
 }
+
+.react-flow__edgelabel-renderer path{
+  color: black !important;
+}

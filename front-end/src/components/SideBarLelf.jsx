@@ -3,6 +3,7 @@ import Button from '../ui/Button';
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import Menu from './Menu';
+import Tools from './Tools';
 
 function SideBarLelf() {
   const [activeButton,setActiveButton] =useState("Menu");
@@ -11,7 +12,7 @@ function SideBarLelf() {
   };
   
   return (
-    <div className="h-screen w-[20rem] border-r-2 border-zinc-800 bg-[#282828] p-4">
+    <div className="h-full w-[20rem] border-r-2 border-zinc-800 bg-[#282828] p-4">
       <div className="flex gap-4">
         <Button
           label={"Menu"}
@@ -28,7 +29,7 @@ function SideBarLelf() {
           active={activeButton === "Tools"}
         />
       </div>
-      {activeButton==="Menu"?<Menu />:null}
+      {activeButton==="Menu"?<Menu />:<Tools/>}
       
     </div>
   );
