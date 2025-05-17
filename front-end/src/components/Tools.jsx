@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDnD } from '../utils/DnDContext';
+import NodeButton from '../ui/NodeButton';
 
 function Tools() {
     const [_, setType] = useDnD();
@@ -10,31 +11,25 @@ function Tools() {
       event.dataTransfer.effectAllowed = "move";
     };
   return (
-    <aside>
+    <aside className="flex flex-col gap-2 mt-5">
       <div className="description">
         You can drag these nodes to the pane on the right.
       </div>
-      <div
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, "inputNode")}
-        draggable
-      >
-        Input Node
-      </div>
-      <div
-        className="dndnode"
-        onDragStart={(event) => onDragStart(event, "defaultNode")}
-        draggable
-      >
-        Default Node
-      </div>
-      <div
-        className="dndnode output"
-        onDragStart={(event) => onDragStart(event, "outputNode")}
-        draggable
-      >
-        Output Node
-      </div>
+      <NodeButton
+        label={"Input Node"}
+        buttonType={"inputNode"}
+        nodeClasses={" -bottom-1 left-1/2 -translate-x-1/2"}
+      />
+      <NodeButton
+        label={"Default Node"}
+        buttonType={"defaultNode"}
+        nodeClasses={" -bottom-1 left-1/2 -translate-x-1/2"}
+      />
+      <NodeButton
+        label={"Output Node"}
+        buttonType={"outputNode"}
+        nodeClasses={" -top-1 left-1/2 -translate-x-1/2"}
+      />
     </aside>
   );
 }
