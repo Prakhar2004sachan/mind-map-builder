@@ -8,14 +8,9 @@ import {
   useEdgesState,
   addEdge,
 } from "@xyflow/react";
+import { initialEdges,initialNodes } from "../data/nodesData";
 
 import "@xyflow/react/dist/style.css";
-
-const initialNodes = [
-  { id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
-  { id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
-];
-const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 
 function FlowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -34,6 +29,7 @@ function FlowCanvas() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        fitView
       >
         <Controls />
         <MiniMap nodeStrokeWidth={2} nodeStrokeColor={"black"} maskStrokeColor="black" maskStrokeWidth={1}/>
