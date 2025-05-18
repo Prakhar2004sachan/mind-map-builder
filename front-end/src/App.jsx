@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ReactFlowProvider } from "@xyflow/react";
 import FlowCanvas from "./components/FlowCanvas";
@@ -6,6 +6,14 @@ import SideBarLeft from "./components/SideBarLelf";
 import { DnDProvider } from "./utils/DnDContext";
 
 function App() {
+  useEffect(() => {
+    const disableRightClick = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", disableRightClick);
+
+    return () => {
+      document.removeEventListener("contextmenu", disableRightClick);
+    };
+  }, []);
   return (
     <motion.div
       className="w-full h-screen flex bg-zinc-900 text-white overflow-hidden"
