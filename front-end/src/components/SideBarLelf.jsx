@@ -21,8 +21,8 @@ function SideBarLeft() {
   return (
     <motion.div
       className="h-full relative flex bg-[#282828] border-r-2 border-zinc-800"
-      initial={{ width: "20rem" }}
-      animate={{ width: isOpen ? "20rem" : "5rem" }}
+      initial={{ width: "25rem" }}
+      animate={{ width: isOpen ? "25rem" : "5rem" }}
       transition={{
         type: "spring",
         stiffness: 300,
