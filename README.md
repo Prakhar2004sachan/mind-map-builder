@@ -60,13 +60,13 @@ Users can drag nodes around, create new ones, connect edges, and manage layout v
 ### 🖼️ Screenshots
 
 ### 🧠 Node Creation and Connections
-![Node Creation](./assets/1.png)
+![Node Creation](./front-end/src/1.png)
 
 ### 🎯 Zoom and Pan
-![Zoom and Pan](./assets/2.png)
+![Zoom and Pan](./front-end/src/2.png)
 
 ### 🖱️ Drag and Drop
-![Drag and Drop](./assets/3.png)
+![Drag and Drop](./front-end/src/assets/3.png)
 
 ✨ Demo
 (Optional: Add deployed link if hosted on Netlify, Vercel, or GitHub Pages)
