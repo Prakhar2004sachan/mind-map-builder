@@ -21,6 +21,9 @@ const EditableDefaultNode = ({ data, id, selected }) => {
         position={Position.Top}
         className="w-3 h-3 bg-blue-400 border-2 border-blue-900 p-1"
       />
+      {data.hasNotification && (
+        <div className="absolute top-1/2 -translate-y-1/2 left-5 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+      )}
       <EditableLabel
         id={id}
         label={data.label}

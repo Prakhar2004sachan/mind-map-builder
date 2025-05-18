@@ -16,6 +16,9 @@ const EditableInputNode = ({ data, id, selected }) => {
         selected ? "ring-2 ring-emerald-400 ring-opacity-70" : ""
       }`}
     >
+      {data.hasNotification && (
+        <div className="absolute top-1/2 -translate-y-1/2 left-5 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+      )}
       <EditableLabel
         id={id}
         label={data.label}

@@ -15,10 +15,10 @@ export const filterNodesAndEdges = (nodes, edges, collapsedNodes) => {
 
   const childrenMap = buildChildrenMap(edges);
   const visibleNodesSet = new Set();
-  const endNodesSet = new Set(nodes.map((node) => node.id)); // Initially assume all are end nodes
+  const nonEndNodesSet = new Set(); // Nodes that have outgoing edges
 
-  edges.forEach(({ source, target }) => {
-    endNodesSet.delete(source); // If a node has an outgoing edge, it's not an end node
+  edges.forEach(({ source }) => {
+    nonEndNodesSet.add(source); // Nodes with outgoing edges are not end nodes
   });
 
   const hasIncomingEdge = new Set(edges.map((edge) => edge.target));
@@ -37,21 +37,17 @@ export const filterNodesAndEdges = (nodes, edges, collapsedNodes) => {
   const visibleNodes = nodes
     .map((node) => {
       const isVisible = visibleNodesSet.has(node.id);
-      const isEndNode = endNodesSet.has(node.id);
+      const isNonEndNode = nonEndNodesSet.has(node.id);
 
-      if (isVisible && isEndNode) {
-        return {
-          ...node,
-          style: {
-            border: "2px solid red",
-            borderRadius: "8px",
-            boxShadow: "2px 8px 15px rgba(255, 0, 0, 0.2)",
-          },
-        };
-      }
-      return node;
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          hasNotification: isVisible && isNonEndNode,
+        },
+      };
     })
-    .filter((node) => visibleNodesSet.has(node.id)); // Filter after applying style
+    .filter((node) => visibleNodesSet.has(node.id));
 
   const visibleEdges = edges.filter(
     (edge) =>
