@@ -139,4 +139,20 @@ export const useFlowStore = create((set, get) => ({
       alert("Failed to load file. Please upload a valid flow JSON.");
     }
   },
+  toggleAllNodeCollapse: () => {
+    set((state) => {
+      const newCollapsedNodes = new Set();
+
+      const allCollapsed = state.nodes.every((node) =>
+        state.collapsedNodes.has(node.id)
+      );
+
+      if (!allCollapsed) {
+        state.nodes.forEach((node) => newCollapsedNodes.add(node.id));
+      }
+
+
+      return { collapsedNodes: newCollapsedNodes };
+    });
+  },
 }));

@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useDnD } from "../utils/DnDContext";
 import NodeButton from "../ui/NodeButton";
+import { useFlowStore } from "../utils/store/flowStore";
 
 function Tools() {
   const [_, setType] = useDnD();
@@ -104,6 +105,14 @@ function Tools() {
           </div>
         </motion.div>
       ))}
+
+      <motion.button
+        className="bg-zinc-700 text-white py-2 px-4 rounded hover:bg-zinc-600 transition-all rounded-2xl"
+        onClick={() => useFlowStore.getState().toggleAllNodeCollapse()}
+        variants={itemVariants}
+      >
+        Toggle Collapse All
+      </motion.button>
 
       <motion.div
         className=" p-4 bg-zinc-800/30 rounded-lg border border-zinc-700 text-sm text-zinc-400"
