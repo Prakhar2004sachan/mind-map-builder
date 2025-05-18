@@ -121,8 +121,25 @@ function FlowCanvas() {
 
   const onReconnect = useCallback(
     (oldEdge, newConnection) => {
+      console.log("Reconnecting Edge:", oldEdge, "->", newConnection);
+
       setEdges((currentEdges) =>
-        reconnectEdge(oldEdge, newConnection, currentEdges)
+        currentEdges.map((edge) => {
+          if (edge.id === oldEdge.id) {
+            const updatedEdge = {
+              ...edge,
+              source: newConnection.source || edge.source,
+              target: newConnection.target || edge.target,
+              sourceHandle: newConnection.sourceHandle || edge.sourceHandle,
+              targetHandle: newConnection.targetHandle || edge.targetHandle,
+            };
+
+            // Ensure unique ID for the edge based on both source and target
+            updatedEdge.id = `${updatedEdge.source}->${updatedEdge.target}`;
+            return updatedEdge;
+          }
+          return edge;
+        })
       );
     },
     [setEdges]
