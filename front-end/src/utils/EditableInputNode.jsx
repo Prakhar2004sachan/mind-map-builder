@@ -12,7 +12,7 @@ const EditableInputNode = ({ data, id, selected }) => {
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.03 }}
-      className={`px-14 py-3 rounded-lg shadow-lg bg-gradient-to-br from-emerald-900 to-emerald-800 text-white ${
+      className={`px-14 py-4 rounded-lg shadow-lg bg-gradient-to-br from-emerald-900 to-emerald-800 text-white ${
         selected ? "ring-2 ring-emerald-400 ring-opacity-70" : ""
       }`}
     >

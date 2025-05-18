@@ -12,14 +12,14 @@ const EditableDefaultNode = ({ data, id, selected }) => {
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.03 }}
-      className={`px-4 py-3 rounded-lg shadow-lg bg-gradient-to-br from-blue-900 to-blue-800 text-white ${
+      className={`px-14 py-4 rounded-lg shadow-lg bg-gradient-to-br from-blue-900 to-blue-800 text-white ${
         selected ? "ring-2 ring-blue-400 ring-opacity-70" : ""
       }`}
     >
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 bg-blue-400 border-2 border-blue-900"
+        className="w-3 h-3 bg-blue-400 border-2 border-blue-900 p-1"
       />
       <EditableLabel
         id={id}
@@ -30,7 +30,7 @@ const EditableDefaultNode = ({ data, id, selected }) => {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="w-3 h-3 bg-blue-400 border-2 border-blue-900"
+        className="w-3 h-3 bg-blue-400 border-2 border-blue-900 p-1"
       />
     </motion.div>
   );
