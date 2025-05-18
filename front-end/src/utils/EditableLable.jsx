@@ -28,7 +28,7 @@ const EditableLabel = ({
       onChange={(e) => setLabel(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={(e) => e.key === "Enter" && inputRef.current.blur()}
-      className="bg-zinc-800 px-3 py-1 rounded text-white outline-none border border-zinc-600 focus:border-indigo-500 transition-all duration-300 w-full shadow-inner"
+      className="bg-zinc-800 px-3 py-1 rounded text-white outline-none border border-zinc-600 focus:border-indigo-500 transition-all duration-300 w-full shadow-inner "
     />
   ) : (
     <motion.div

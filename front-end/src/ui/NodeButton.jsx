@@ -52,7 +52,7 @@ function NodeButton({ label, buttonType, nodeClasses }) {
           boxShadow: `0 0 10px 0 ${getColor(buttonType)}10`,
         }}
         onDragStart={onDragStart}
-        draggable
+        // draggable
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}

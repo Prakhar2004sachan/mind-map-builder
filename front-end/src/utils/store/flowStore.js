@@ -59,22 +59,6 @@ export const useFlowStore = create((set, get) => ({
     });
   },
 
-  updateNodeLabel: (nodeId, newLabel) => {
-    set({
-      nodes: get().nodes.map((node) =>
-        node.id === nodeId
-          ? {
-              ...node,
-              data: {
-                ...node.data,
-                label: newLabel,
-                onLabelChange: (id, label) => get().updateNodeLabel(id, label),
-              },
-            }
-          : node
-      ),
-    });
-  },
 
   addNode: (nodeData) => {
     const currentNodes = Array.isArray(get().nodes) ? get().nodes : [];
@@ -83,32 +67,6 @@ export const useFlowStore = create((set, get) => ({
     });
   },
 
-  // Key fix: Implementing edge update handler properly
-  onEdgeUpdate: (oldEdge, newConnection) => {
-    console.log("Updating edge:", oldEdge, "to", newConnection);
-
-    set((state) => {
-      // Find the edge to update
-      const edgeIndex = state.edges.findIndex((e) => e.id === oldEdge.id);
-
-      if (edgeIndex === -1) {
-        console.error("Edge not found:", oldEdge.id);
-        return state;
-      }
-
-      // Create a new array with the updated edge
-      const newEdges = [...state.edges];
-      newEdges[edgeIndex] = {
-        ...oldEdge,
-        source: newConnection.source || oldEdge.source,
-        target: newConnection.target || oldEdge.target,
-        sourceHandle: newConnection.sourceHandle || oldEdge.sourceHandle,
-        targetHandle: newConnection.targetHandle || oldEdge.targetHandle,
-      };
-
-      return { edges: newEdges };
-    });
-  },
 
   resetFlow: () => {
     set({ nodes: [], edges: [], collapsedNodes: new Set() });
