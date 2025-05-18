@@ -1,125 +1,92 @@
 import { useCallback, useRef } from "react";
-import {
-  addEdge,
-  reconnectEdge,
-  getConnectedEdges,
-  getOutgoers,
-  getIncomers,
-} from "@xyflow/react";
+import { useFlowStore } from "../store/flowStore";
 import { useDnD } from "../DnDContext";
+import { getConnectedEdges, getIncomers, getOutgoers, useReactFlow } from "@xyflow/react";
 
-export const useFlowHandlers = ({
-  setEdges,
-  setNodes,
-  getEdge,
-  screenToFlowPosition,
-  nodes,
-  edges,
-}) => {
+export const useFlowHandlers = () => {
   const [_, setType] = useDnD();
-  const edgeReconnectSuccessful = useRef(true);
   const overlappedEdgeRef = useRef(null);
 
-  const onConnect = (connection) => {
-    setEdges((eds) => addEdge({ ...connection, type: "custom-edge" }, eds));
+  const { nodes, edges, setEdges,setNodes, onConnect, onReconnect, addNode } =
+    useFlowStore();
+    const { updateEdge, getEdge, addEdges } = useReactFlow();
 
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === connection.target) {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              parent: connection.source,
-            },
-          };
-        }
-        return node;
-      })
-    );
-      
-  };
+    const onNodeDragStop = useCallback(
+      (event, node) => {
+        const edgeId = overlappedEdgeRef.current;
+        if (!edgeId) return;
+        const edge = getEdge(edgeId);
+        if (!edge) return;
 
-  const onReconnectStart = useCallback(() => {
-    edgeReconnectSuccessful.current = false;
-  }, []);
+        updateEdge(edgeId, { source: edge.source, target: node.id, style: {} });
 
-  const onReconnect = useCallback((oldEdge, newConnection) => {
-    edgeReconnectSuccessful.current = true;
-    setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
-  }, []);
-
-  const onReconnectEnd = useCallback((_, edge) => {
-    if (!edgeReconnectSuccessful.current) {
-      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-    }
-    edgeReconnectSuccessful.current = true;
-  }, []);
-
-  const onNodeDrag = useCallback(
-    (e, node) => {
-      const nodeDiv = document.querySelector(
-        `.react-flow__node[data-id="${node.id}"]`
-      );
-      if (!nodeDiv) return;
-
-      const { left, top, width, height } = nodeDiv.getBoundingClientRect();
-      const [centerX, centerY] = [left + width / 2, top + height / 2];
-      const edgeId = document
-        .elementsFromPoint(centerX, centerY)
-        ?.find((el) => el.classList.contains("react-flow__edge-interaction"))
-        ?.closest(".react-flow__edge")?.dataset?.id;
-
-      if (edgeId) {
-        getEdge(edgeId) &&
-          setEdges((eds) =>
-            eds.map((edge) =>
-              edge.id === edgeId
-                ? { ...edge, style: { stroke: "black" } }
-                : edge
-            )
-          );
-      } else if (overlappedEdgeRef.current) {
-        setEdges((eds) =>
-          eds.map((edge) =>
-            edge.id === overlappedEdgeRef.current
-              ? { ...edge, style: {} }
-              : edge
-          )
-        );
-      }
-
-      overlappedEdgeRef.current = edgeId || null;
-    },
-    [getEdge, setEdges]
-  );
-
-  const onNodeDragStop = useCallback(
-    (_, node) => {
-      const edgeId = overlappedEdgeRef.current;
-      const edge = getEdge(edgeId);
-
-      if (!edge) return;
-
-      setEdges((eds) => [
-        ...eds.filter((e) => e.id !== edgeId),
-        {
-          id: `${edge.source}->${node.id}`,
-          source: edge.source,
-          target: node.id,
-          type: "custom-edge",
-        },
-        {
+        addEdges({
           id: `${node.id}->${edge.target}`,
           source: node.id,
           target: edge.target,
-          type: "custom-edge",
-        },
-      ]);
-      overlappedEdgeRef.current = null;
+        });
+
+        overlappedEdgeRef.current = null;
+      },
+      [getEdge, addEdges, updateEdge]
+    );
+
+    const onNodeDrag= useCallback(
+      (e, node) => {
+        const nodeDiv = document.querySelector(
+          `.react-flow__node[data-id=${node.id}]`
+        );
+
+        if (!nodeDiv) return;
+
+        const rect = nodeDiv.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const edgeFound = document
+          .elementsFromPoint(centerX, centerY)
+          .find((el) =>
+            el.classList.contains("react-flow__edge-interaction")
+          )?.parentElement;
+
+        const edgeId = edgeFound?.dataset.id;
+
+        if (edgeId) updateEdge(edgeId, { style: { stroke: "black" } });
+        else if (overlappedEdgeRef.current)
+          updateEdge(overlappedEdgeRef.current, { style: {} });
+
+        overlappedEdgeRef.current = edgeId || null;
+      },
+      [updateEdge]
+    );
+
+  const handleDrop = useCallback(
+    (event, getId) => {
+      event.preventDefault();
+      const type = event.dataTransfer.getData("application/reactflow");
+      if (!type) return;
+
+      const position = { x: event.clientX, y: event.clientY };
+      addNode({
+        id: getId(),
+        type,
+        position,
+        data: { label: "New Node" },
+      });
     },
-    [getEdge, setEdges]
+    [addNode]
   );
+
+  const handleDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const handleDragStart = (event, nodeType) => {
+    setType(nodeType);
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
+  };
 
   const onNodesDelete = useCallback(
     (deleted) => {
@@ -129,70 +96,35 @@ export const useFlowHandlers = ({
           const outgoers = getOutgoers(node, nodes, edges);
           const connectedEdges = getConnectedEdges([node], edges);
 
-          const remainingEdges = acc.filter((e) => !connectedEdges.includes(e));
-          const newEdges = incomers.flatMap(({ id: source }) =>
+          const remainingEdges = acc.filter(
+            (edge) => !connectedEdges.includes(edge)
+          );
+
+          const createdEdges = incomers.flatMap(({ id: source }) =>
             outgoers.map(({ id: target }) => ({
               id: `${source}->${target}`,
+              type: "custom-edge",
               source,
               target,
-              type: "custom-edge",
             }))
           );
-          return [...remainingEdges, ...newEdges];
+
+          return [...remainingEdges, ...createdEdges];
         }, edges)
       );
     },
     [nodes, edges]
   );
 
-  const onDrop = useCallback(
-    (event, getId, handleLabelChange) => {
-      event.preventDefault();
-      const type = event.dataTransfer.getData("application/reactflow");
-      if (!type) return;
-
-      const position = screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-
-      setNodes((nds) => [
-        ...nds,
-        {
-          id: getId(),
-          type,
-          position,
-          data: {
-            label: "Double click to edit",
-            onLabelChange: handleLabelChange,
-          },
-        },
-      ]);
-    },
-    [screenToFlowPosition, setNodes]
-  );
-
-  const onDragOver = useCallback((event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-  }, []);
-
-  const onDragStart = (event, nodeType) => {
-    setType(nodeType);
-    event.dataTransfer.setData("application/reactflow", nodeType);
-    event.dataTransfer.effectAllowed = "move";
-  };
 
   return {
     onConnect,
     onReconnect,
-    onReconnectStart,
-    onReconnectEnd,
-    onNodeDragStop,
-    onNodeDrag,
+    handleDrop,
+    handleDragOver,
+    handleDragStart,
     onNodesDelete,
-    onDrop,
-    onDragOver,
-    onDragStart,
+    onNodeDragStop,
+    onNodeDrag
   };
 };

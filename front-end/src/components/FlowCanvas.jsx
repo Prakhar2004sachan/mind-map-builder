@@ -1,12 +1,11 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   ReactFlow,
   MiniMap,
   Controls,
   Background,
-  useNodesState,
-  useEdgesState,
   useReactFlow,
+  reconnectEdge,
 } from "@xyflow/react";
 import { useDnD } from "../utils/DnDContext";
 import { initialEdges, initialNodes } from "../data/nodesData";
@@ -17,6 +16,7 @@ import EditableInputNode from "../utils/EditableInputNode";
 import "@xyflow/react/dist/style.css";
 import { useFlowHandlers } from "../utils/hooks/useFlowHandler";
 import { filterNodesAndEdges } from "../utils/filterNodesAndEdges";
+import { useFlowStore } from "../utils/store/flowStore";
 
 const nodeTypes = {
   inputNode: EditableInputNode,
@@ -35,56 +35,81 @@ const defaultEdgeOptions = { interactionWidth: 75 };
 
 function FlowCanvas() {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const { screenToFlowPosition, getEdge } = useReactFlow();
-  const [setType] = useDnD();
-  const [collapsedNodes, setCollapsedNodes] =useState(new Set());
+  const { screenToFlowPosition, getEdge, } = useReactFlow();
+  const [_,setType] = useDnD();
+  
+  const {
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    updateNodeLabel,
+    saveToFile,
+    collapsedNodes,
+    toggleNodeCollapse,
+  } = useFlowStore(  );
+
+  
+  
+  const onNodeClick = (event, node) => {
+    toggleNodeCollapse(node.id);
+  };
+  
   const { visibleNodes, visibleEdges } = filterNodesAndEdges(
     nodes,
     edges,
     collapsedNodes
   );
 
-
-
-  const onNodeClick = (event, node) => {
-    setCollapsedNodes((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(node.id)) newSet.delete(node.id);
-      else newSet.add(node.id);
-      return newSet;
-    });
-  };
+  useEffect(() => {
+    if (nodes.length === 0) {
+      setNodes(initialNodes);
+    }
+    if (edges.length === 0) {
+      setEdges(initialEdges);
+    }
+  }, [nodes.length, edges.length, setNodes, setEdges]);
   
-  
-
   const handleLabelChange = (id, newLabel) => {
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === id
-          ? {
-              ...node,
-              data: {
-                ...node.data,
-                label: newLabel,
-                onLabelChange: handleLabelChange,
-              },
-            }
-          : node
-      )
-    );
+    updateNodeLabel(id, newLabel);
   };
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const nodeType = event.dataTransfer.getData("application/reactflow");
+      if (!nodeType) return;
+
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+
+      const newNode = {
+        id: getId(),
+        type: nodeType,
+        position,
+        data: {
+          label: "Double click to edit",
+          onLabelChange: handleLabelChange,
+        },
+      };
+
+      setNodes((nds) => [...nds, newNode]);
+    },
+    [screenToFlowPosition]
+  );
 
   const {
-    onConnect,
-    onReconnect,
-    onReconnectStart,
-    onReconnectEnd,
-    onNodeDragStop,
     onNodeDrag,
     onNodesDelete,
-    onDrop,
+    handleDragOver,
+    handleDragStart,
+    onNodeDragStop,
   } = useFlowHandlers({
     setEdges,
     setNodes,
@@ -94,44 +119,23 @@ function FlowCanvas() {
     edges,
   });
 
-  const onDragOver = useCallback((event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-  }, []);
+  const onReconnect = useCallback(
+    (oldEdge, newConnection) => {
+      setEdges((currentEdges) =>
+        reconnectEdge(oldEdge, newConnection, currentEdges)
+      );
+    },
+    [setEdges]
+  );
 
-  const onDragStart = (event, nodeType) => {
-    setType(nodeType);
-    event.dataTransfer.setData("application/reactflow", nodeType);
-    event.dataTransfer.effectAllowed = "move";
-  };
+ 
 
-  const exportFn = () => {
-    const flowData = {
-      nodes,
-      edges,
-    };
-
-    const jsonString = JSON.stringify(flowData, null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-
-    const name = prompt("Enter file name (without .json):", "MyFlow");
-    if (!name) return;
-
-    a.href = url;
-    a.download = `${name}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
 
   return (
     <div ref={reactFlowWrapper} className="flex-1 relative w-full h-full">
       <button
         className="absolute z-10 right-[100px] top-[30px] bg-[#de1d61] px-4 py-1 text-sm rounded-full"
-        onClick={exportFn}
+        onClick={saveToFile}
       >
         Save Flow
       </button>
@@ -144,12 +148,10 @@ function FlowCanvas() {
         edgeTypes={edgeTypes}
         defaultEdgeOptions={defaultEdgeOptions}
         onConnect={onConnect}
-        onDragStart={onDragStart}
+        onDragStart={handleDragStart}
         onDrop={(e) => onDrop(e, getId, handleLabelChange)}
-        onDragOver={onDragOver}
+        onDragOver={handleDragOver}
         onReconnect={onReconnect}
-        onReconnectStart={onReconnectStart}
-        onReconnectEnd={onReconnectEnd}
         onNodesDelete={onNodesDelete}
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
