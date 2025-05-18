@@ -14,7 +14,7 @@ function App() {
       transition={{ duration: 0.6 }}
     >
       <motion.div
-        className="absolute z-50 top-8 left-1/2 -translate-x-1/2 bg-black/30 backdrop-blur-md py-2 px-4 rounded-full border border-zinc-700/50 text-sm text-center"
+        className="absolute z-50 top-9 left-1/2 -translate-x-1/2 bg-black/30 backdrop-blur-md py-2 px-4 rounded-full border border-zinc-700/50 text-sm text-center"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{

@@ -5,7 +5,6 @@ import {
   Controls,
   Background,
   useReactFlow,
-  reconnectEdge,
 } from "@xyflow/react";
 import { useDnD } from "../utils/DnDContext";
 import { initialEdges, initialNodes } from "../data/nodesData";
@@ -17,6 +16,7 @@ import "@xyflow/react/dist/style.css";
 import { useFlowHandlers } from "../utils/hooks/useFlowHandler";
 import { filterNodesAndEdges } from "../utils/filterNodesAndEdges";
 import { useFlowStore } from "../utils/store/flowStore";
+import {motion} from "framer-motion"
 
 const nodeTypes = {
   inputNode: EditableInputNode,
@@ -150,12 +150,20 @@ function FlowCanvas() {
 
   return (
     <div ref={reactFlowWrapper} className="flex-1 relative w-full h-full">
-      <button
-        className="absolute z-10 right-[100px] top-[30px] bg-[#de1d61] px-4 py-1 text-sm rounded-full"
+      <motion.div
+        className="absolute z-50 top-9 right-[50px] bg-[#ec6281] backdrop-blur-md py-2 px-4 rounded-full text-sm text-center cursor-pointer"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+          delay: 0.5,
+          type: "spring",
+          stiffness: 200,
+          damping: 20,
+        }}
         onClick={saveToFile}
       >
         Save Flow
-      </button>
+      </motion.div>
       <ReactFlow
         nodes={visibleNodes}
         edges={visibleEdges}
@@ -179,7 +187,7 @@ function FlowCanvas() {
       >
         <Controls />
         <MiniMap nodeStrokeWidth={2} nodeStrokeColor="white" />
-        <Background variant="dots" gap={12} size={.5} />
+        <Background variant="dots" gap={12} size={0.5} />
       </ReactFlow>
     </div>
   );

@@ -31,7 +31,7 @@ function SideBarLeft() {
       }}
     >
       <motion.div
-        className="absolute top-1/2 -right-3 z-10 flex items-center justify-center h-8 w-6 bg-[#FFD700] rounded-md cursor-pointer"
+        className="absolute top-1/2 -right-3 z-10 flex items-center justify-center h-8 w-6 bg-[#de1d61] rounded-md cursor-pointer"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleSidebar}
