@@ -22,6 +22,7 @@ export const useFlowHandlers = () => {
 
         addEdges({
           id: `${node.id}->${edge.target}`,
+          type: "custom-edge",
           source: node.id,
           target: edge.target,
         });
