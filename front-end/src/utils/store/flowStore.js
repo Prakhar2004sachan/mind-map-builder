@@ -50,15 +50,30 @@ export const useFlowStore = create((set, get) => ({
   toggleNodeCollapse: (nodeId) => {
     set((state) => {
       const newCollapsedNodes = new Set(state.collapsedNodes);
-      if (newCollapsedNodes.has(nodeId)) {
+      const isCollapsed = newCollapsedNodes.has(nodeId);
+
+      const updatedNodes = state.nodes.map((node) => {
+        if (node.parentNode === nodeId) {
+          return {
+            ...node,
+            hidden: !isCollapsed, // hide children if collapsing
+          };
+        }
+        return node;
+      });
+
+      if (isCollapsed) {
         newCollapsedNodes.delete(nodeId);
       } else {
         newCollapsedNodes.add(nodeId);
       }
-      return { collapsedNodes: newCollapsedNodes };
+
+      return {
+        collapsedNodes: newCollapsedNodes,
+        nodes: updatedNodes,
+      };
     });
   },
-
 
   addNode: (nodeData) => {
     const currentNodes = Array.isArray(get().nodes) ? get().nodes : [];
@@ -66,7 +81,6 @@ export const useFlowStore = create((set, get) => ({
       nodes: [...currentNodes, nodeData],
     });
   },
-
 
   resetFlow: () => {
     set({ nodes: [], edges: [], collapsedNodes: new Set() });
@@ -97,6 +111,16 @@ export const useFlowStore = create((set, get) => ({
       alert("Failed to load file. Please upload a valid flow JSON.");
     }
   },
+
+  updateNodeLabel: (id, newLabel) => {
+    set((state) => ({
+      nodes: state.nodes.map((node) =>
+        node.id === id
+          ? { ...node, data: { ...node.data, label: newLabel } }
+          : node
+      ),
+    }));
+  },
   toggleAllNodeCollapse: () => {
     set((state) => {
       const newCollapsedNodes = new Set();
@@ -108,7 +132,6 @@ export const useFlowStore = create((set, get) => ({
       if (!allCollapsed) {
         state.nodes.forEach((node) => newCollapsedNodes.add(node.id));
       }
-
 
       return { collapsedNodes: newCollapsedNodes };
     });
