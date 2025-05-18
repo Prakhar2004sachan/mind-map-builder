@@ -23,11 +23,11 @@ A fully interactive and customizable **Mind Map** application built using [React
 
 Clone the repo and install dependencies:
 
-```bash
+```
 git clone https://github.com/your-username/react-flow-mindmap.git
 cd react-flow-mindmap
 npm install
-
+```
 
 Start the development server:
 
@@ -36,7 +36,7 @@ Copy
 Edit
 npm run dev  # For Vite
 # or
-npm start    # For CRA
+npm start    # For Create React App
 📁 Folder Structure
 bash
 Copy
@@ -52,27 +52,27 @@ Nodes are rendered using React Flow's <ReactFlow /> component.
 
 Edges represent logical or conceptual relationships.
 
-State is managed using React’s useState or context (if implemented).
+State is managed using React’s useState, useReducer, or Context API (if implemented).
 
-You can drag nodes around and create edges interactively.
+Users can drag nodes around, create new ones, connect edges, and manage layout visually.
 
 🖼️ Screenshots
-(Add screenshots here if available)
+(Add screenshots of your UI and node interaction here)
 
 ✨ Demo
 (Optional: Add deployed link if hosted on Netlify, Vercel, or GitHub Pages)
-🔗 Live Demo
+🔗 Live Demo: your-deployment-url.com
 
 📌 Future Improvements
-Save/load maps from localStorage or backend
+💾 Save/load mind maps from localStorage or a backend database
 
-Export to image or PDF
+🖼️ Export maps as images or PDFs
 
-Keyboard shortcuts
+⌨️ Keyboard shortcuts for faster workflows
 
-Multi-user collaboration
+🧑‍🤝‍🧑 Multi-user real-time collaboration
 
-Theming and color customization
+🎨 Theme and color customization per node
 
 🧑‍💻 Author
 Prakhar — @yourGitHub
