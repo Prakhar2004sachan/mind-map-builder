@@ -58,8 +58,16 @@ State is managed using React’s useState, useReducer, or Context API (if implem
 
 Users can drag nodes around, create new ones, connect edges, and manage layout visually.
 
-🖼️ Screenshots
-(Add screenshots of your UI and node interaction here)
+###🖼️ Screenshots
+
+### 🧠 Node Creation and Connections
+![Node Creation](./public/Screenshot 2025-05-18 142248.png)
+
+### 🎯 Zoom and Pan
+![Zoom and Pan](./public/Screenshot 2025-05-18 160812.png)
+
+### 🎯 Drag and Drop
+![Zoom and Pan](./public/Screenshot 2025-05-18 160901.png)
 
 ✨ Demo
 (Optional: Add deployed link if hosted on Netlify, Vercel, or GitHub Pages)
@@ -77,5 +85,5 @@ Users can drag nodes around, create new ones, connect edges, and manage layout v
 🎨 Theme and color customization per node
 
 🧑‍💻 Author
-Prakhar — @yourGitHub
+Prakhar — @Prakhar2004sachan
 Learning full stack development and building cool visual tools!
