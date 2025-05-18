@@ -4,13 +4,17 @@ A fully interactive and customizable **Mind Map** application built using [React
 
 ## 🚀 Features
 
-- ✅ Drag-and-drop nodes with smooth interaction  
-- ✅ Create, delete, and edit mind map nodes  
-- ✅ Connect nodes with edges  
-- ✅ Pan & Zoom support  
-- ✅ Real-time layout updates  
+- ✅ Drag-and-drop nodes with smooth interaction
+- ✅ Create, delete, and edit mind map nodes
+- ✅ Connect nodes with edges
+- ✅ Pan & Zoom support
+- ✅ Real-time layout updates
 - ✅ Custom node components
 - ✅ Built with performance and scalability in mind
+
+## 📹 Video Demo
+
+[▶️ Click here to watch the video demo](https://drive.google.com/file/d/1Wgf8ghmGhf4gbjGYajyjjaSBSbZF3b1D/view?usp=sharing)
 
 ## 🛠️ Tech Stack
 
@@ -18,6 +22,7 @@ A fully interactive and customizable **Mind Map** application built using [React
 - [React Flow](https://reactflow.dev/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Vite](https://vitejs.dev/)
+
 ## 📦 Installation
 
 Clone the repo and install dependencies:
@@ -36,8 +41,8 @@ npm run dev  # For Vite
 npm start    # For Create React App
 ```
 
-
 📁 Folder Structure
+
 ```
 /src
   ├── components/       # Reusable React components (Nodes, Toolbar, etc.)
@@ -47,6 +52,7 @@ npm start    # For Create React App
   └── styles/           # Global styles
 
 ```
+
 🧩 How it Works
 Nodes are rendered using React Flow's `<ReactFlow />` component.
 
@@ -59,12 +65,15 @@ Users can drag nodes around, create new ones, connect edges, and manage layout v
 ### 🖼️ Screenshots
 
 ### 🧠 Node Creation and Connections
+
 ![Node Creation](./front-end/src/assets/1.png)
 
 ### 🎯 Zoom and Pan
+
 ![Zoom and Pan](./front-end/src/assets/2.png)
 
 ### 🖱️ Drag and Drop
+
 ![Drag and Drop](./front-end/src/assets/3.png)
 
 ✨ Demo
