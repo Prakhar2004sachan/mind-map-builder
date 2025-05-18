@@ -48,26 +48,25 @@ npm start    # For Create React App
   └── styles/           # Global styles (if any)
 
 ```
-
 🧩 How it Works
-Nodes are rendered using React Flow's <ReactFlow /> component.
+Nodes are rendered using React Flow's `<ReactFlow />` component.
 
 Edges represent logical or conceptual relationships.
 
-State is managed using React’s useState, useReducer, or Context API (if implemented).
+State is managed using React’s `useState`, `useReducer`, or Context API (if implemented).
 
 Users can drag nodes around, create new ones, connect edges, and manage layout visually.
 
-###🖼️ Screenshots
+### 🖼️ Screenshots
 
 ### 🧠 Node Creation and Connections
-![Node Creation](./public/Screenshot 2025-05-18 142248.png)
+![Node Creation](./assets/Screenshot%202025-05-18%20142248.png)
 
 ### 🎯 Zoom and Pan
-![Zoom and Pan](./public/Screenshot 2025-05-18 160812.png)
+![Zoom and Pan](./assets/Screenshot%202025-05-18%20160812.png)
 
-### 🎯 Drag and Drop
-![Zoom and Pan](./public/Screenshot 2025-05-18 160901.png)
+### 🖱️ Drag and Drop
+![Drag and Drop](./assets/Screenshot%202025-05-18%20160901.png)
 
 ✨ Demo
 (Optional: Add deployed link if hosted on Netlify, Vercel, or GitHub Pages)
@@ -85,5 +84,5 @@ Users can drag nodes around, create new ones, connect edges, and manage layout v
 🎨 Theme and color customization per node
 
 🧑‍💻 Author
-Prakhar — @Prakhar2004sachan
+Prakhar — [@Prakhar2004sachan](https://github.com/Prakhar2004sachan)
 Learning full stack development and building cool visual tools!
