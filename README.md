@@ -31,22 +31,24 @@ npm install
 
 Start the development server:
 
-bash
-Copy
-Edit
+```
 npm run dev  # For Vite
 # or
 npm start    # For Create React App
+```
+
+
 📁 Folder Structure
-bash
-Copy
-Edit
+```
 /src
   ├── components/       # Reusable React components (Nodes, Toolbar, etc.)
   ├── hooks/            # Custom hooks (e.g., useMindMap)
   ├── App.jsx           # Root component
   ├── main.jsx          # Entry point
   └── styles/           # Global styles (if any)
+
+```
+
 🧩 How it Works
 Nodes are rendered using React Flow's <ReactFlow /> component.
 
