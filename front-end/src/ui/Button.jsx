@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
-function Button({ label, showIcon, icon, click, active }) {
+function Button({ label, showIcon, icon, click, active, link}) {
   return (
     <motion.button
       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
@@ -34,7 +34,8 @@ function Button({ label, showIcon, icon, click, active }) {
           {icon}
         </motion.span>
       )}
-      {label && (
+      {label && link && <a href={link} target="_blank">{label}</a>}
+      {label && !link && (
         <span className="whitespace-nowrap text-sm font-medium">{label}</span>
       )}
     </motion.button>

@@ -91,6 +91,9 @@ function Menu() {
         className="mt-6 flex gap-3 items-center cursor-pointer hover:text-[#FFD700] transition-all duration-200 p-2 rounded-lg hover:bg-zinc-800/70 border border-zinc-600"
         variants={itemVariants}
         whileHover={{ y: -3 }}
+        onClick={() => {
+          window.location.href = "mailto:prakhar102004@gmail.com";
+        }}
       >
         <MdHelpOutline className="size-5" />
         <p>Get Help</p>
@@ -100,6 +103,7 @@ function Menu() {
       <motion.div className="mt-5 flex flex-col gap-4" variants={itemVariants}>
         <motion.div whileHover={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
           <Button
+            link={"https://github.com/Prakhar2004sachan/mind-map-builder"}
             label={"Project on GitHub"}
             showIcon={true}
             icon={
@@ -116,6 +120,7 @@ function Menu() {
         </motion.div>
         <motion.div whileHover={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
           <Button
+            link={"https://www.linkedin.com/in/prakhar-sachan-753829360/"}
             label={"Follow me on LinkedIn"}
             showIcon={true}
             icon={
