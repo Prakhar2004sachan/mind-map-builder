@@ -23,7 +23,7 @@ A fully interactive and customizable **Mind Map** application built using [React
 Clone the repo and install dependencies:
 
 ```
-git clone https://github.com/your-username/react-flow-mindmap.git
+git clone https://github.com/Prakhar2004sachan/mind-map-builder.git
 cd react-flow-mindmap
 npm install
 ```
