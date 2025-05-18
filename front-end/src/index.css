@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  user-select: none;
+}
+
+.dark .react-flow__node {
+  background: #777;
+  color: white;
+}
+
+.light .react-flow__node {
+  background: white;
+  color: #111;
+}
+
+.scrollProj::-webkit-scrollbar {
+  display: none;
+}
+
+.react-flow__edgelabel-renderer path{
+  color: black !important;
+}
+
+.react-flow__edgelabel-renderer:hover path{
+  color: white !important;
+}
+
+.react-flow__edge.selectable:hover .react-flow__edge-path,
+.react-flow__edge.selectable.selected .react-flow__edge-path {
+  stroke: white;
+}
+
+input[type="file"]{
+  display: none;
+}
+
+
+/* Custom scroll */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1E1E1E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #de1d61;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFEB80;
+}
+
+.react-flow__node {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
