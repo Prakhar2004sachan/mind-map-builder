@@ -9,16 +9,15 @@ A fully interactive and customizable **Mind Map** application built using [React
 - ✅ Connect nodes with edges  
 - ✅ Pan & Zoom support  
 - ✅ Real-time layout updates  
-- ✅ Custom node components (optional)  
+- ✅ Custom node components
 - ✅ Built with performance and scalability in mind
 
 ## 🛠️ Tech Stack
 
 - [React](https://reactjs.org/)
 - [React Flow](https://reactflow.dev/)
-- [TailwindCSS](https://tailwindcss.com/) *(optional if used)*
-- [Vite](https://vitejs.dev/) or Create React App *(depending on your setup)*
-
+- [TailwindCSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
 ## 📦 Installation
 
 Clone the repo and install dependencies:
@@ -45,7 +44,7 @@ npm start    # For Create React App
   ├── hooks/            # Custom hooks (e.g., useMindMap)
   ├── App.jsx           # Root component
   ├── main.jsx          # Entry point
-  └── styles/           # Global styles (if any)
+  └── styles/           # Global styles
 
 ```
 🧩 How it Works
