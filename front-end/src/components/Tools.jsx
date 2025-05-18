@@ -37,21 +37,21 @@ function Tools() {
       buttonType: "inputNode",
       nodeClasses: "-bottom-1 left-1/2 -translate-x-1/2",
       description: "Use this node as a starting point for your flow",
-      color: "#6366f1",
+      color: "#10b981",
     },
     {
       label: "Default Node",
       buttonType: "defaultNode",
       nodeClasses: "-bottom-1 left-1/2 -translate-x-1/2",
       description: "Standard node with input and output connectors",
-      color: "#ec6281",
+      color: "#6366f1",
     },
     {
       label: "Output Node",
       buttonType: "outputNode",
       nodeClasses: "-top-1 left-1/2 -translate-x-1/2",
       description: "Use this node as an endpoint in your flow",
-      color: "#10b981",
+      color: "#8E24AA",
     },
   ];
 

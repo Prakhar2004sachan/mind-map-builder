@@ -6,7 +6,7 @@ function NodeButton({ label, buttonType, nodeClasses }) {
   const getColor = (type) => {
     switch (type) {
       case "inputNode":
-        return "#6366f1"; // Indigo
+        return "#6366f1";  // Indigo
       case "defaultNode":
         return "#ec6281"; // Pink (your app's accent color)
       case "outputNode":

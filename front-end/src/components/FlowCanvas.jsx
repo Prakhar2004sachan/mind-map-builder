@@ -162,7 +162,7 @@ function FlowCanvas() {
       >
         <Controls />
         <MiniMap nodeStrokeWidth={2} nodeStrokeColor="white" />
-        <Background variant="dots" gap={12} size={1} />
+        <Background variant="dots" gap={12} size={.5} />
       </ReactFlow>
     </div>
   );

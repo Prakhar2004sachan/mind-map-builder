@@ -15,6 +15,7 @@ function SideBarLeft() {
   };
   
   const toggleSidebar = () => {
+    setActiveButton("Menu")
     setIsOpen(!isOpen);
   };
   

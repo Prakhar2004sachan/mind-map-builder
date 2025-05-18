@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
-const EditableLabel = ({ id, label: initialLabel, onChange }) => {
+// Enhanced EditableLabel with animations and improved styling
+const EditableLabel = ({
+  id,
+  label: initialLabel,
+  onChange,
+  className = "",
+}) => {
   const [editing, setEditing] = useState(false);
   const [label, setLabel] = useState(initialLabel);
   const inputRef = useRef(null);
@@ -21,10 +28,17 @@ const EditableLabel = ({ id, label: initialLabel, onChange }) => {
       onChange={(e) => setLabel(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={(e) => e.key === "Enter" && inputRef.current.blur()}
-      className="bg-zinc-700 px-2 py-1 rounded text-white outline-none w-full"
+      className="bg-zinc-800 px-3 py-1 rounded text-white outline-none border border-zinc-600 focus:border-indigo-500 transition-all duration-300 w-full shadow-inner"
     />
   ) : (
-    <p onDoubleClick={() => setEditing(true)}>{label}</p>
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.98 }}
+      className={`px-3 py-1 cursor-pointer hover:bg-zinc-700 rounded transition-colors ${className}`}
+      onClick={() => setEditing(true)}
+    >
+      {label}
+    </motion.div>
   );
 };
 

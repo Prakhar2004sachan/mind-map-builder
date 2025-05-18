@@ -58,11 +58,10 @@ input[type="file"]{
   color-scheme: dark;
 }
 
-body {
-  background-color: #121212;
-  color: #FFFFFF;
-  font-family: 'Space Grotesk', sans-serif;
-  overflow-x: hidden;
+.react-flow__node {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .text-gradient {
