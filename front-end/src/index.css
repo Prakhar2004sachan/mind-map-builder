@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-background font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-primary-light hover:shadow-lg;
+  }
+
+  .dashboard-card {
+    @apply glass-effect rounded-xl p-4 shadow-card;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -38,4 +52,54 @@
 
 input[type="file"]{
   display: none;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #121212;
+  color: #FFFFFF;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #FFD700 0%, #FF9500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-gradient {
+  stop-color: #FFD700;
+  stop-opacity: 1;
+}
+
+
+/* Custom scroll */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1E1E1E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFD700;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFEB80;
 }

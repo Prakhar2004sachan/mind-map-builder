@@ -1,15 +1,10 @@
 import React from 'react'
-import { useDnD } from '../utils/DnDContext';
 import NodeButton from '../ui/NodeButton';
 
 function Tools() {
-    const [_, setType] = useDnD();
 
-    const onDragStart = (event, nodeType) => {
-    //   setType(nodeType);
-      event.dataTransfer.setData("application/reactflow", nodeType);
-      event.dataTransfer.effectAllowed = "move";
-    };
+
+   
   return (
     <aside className="flex flex-col gap-2 mt-5">
       <div className="description">
